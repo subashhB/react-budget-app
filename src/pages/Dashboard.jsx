@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import { fetchData } from "../helpers";
+import { createBudget, fetchData } from "../helpers";
 import Intro from "../components/Intro";
 import { toast } from "react-toastify";
 import AddBudgetForm from "../components/AddBudgetForm";
@@ -12,27 +12,50 @@ export const dashboardLoader = () => {
 
 export async function dashboardAction({ request }) {
   const data = await request.formData();
-  const formData = Object.fromEntries(data);
-  try {
-    localStorage.setItem("userName", JSON.stringify(formData.userName));
-    return toast.success(`Welcome, ${formData.userName}`);
-  } catch (error) {
-    throw new Error("There was a problem creating you account.");
+  const { _action, ...values } = Object.fromEntries(data);
+  if (_action === "newUser") {
+    try {
+      localStorage.setItem("userName", JSON.stringify(values.userName));
+      return toast.success(`Welcome, ${values.userName}`);
+    } catch (error) {
+      throw new Error("There was a problem creating you account.");
+    }
+  }
+  if(_action === "createBudget"){
+    try{
+      createBudget({
+        name: values.newBudget,
+        amount: values.newBudgetAmount,
+      })
+      return toast.success("Budget created Sucessfully");
+    }catch(error){
+      throw new Error("There was a problem creating your budget");
+    }
   }
 }
 
 const Dashboard = () => {
   const { userName, budgets } = useLoaderData();
-  return <div>{userName ? <div className="dashboard">
-    <h1>Welcome, <span className="accent">{userName}</span></h1>
-    <div className="grid-sm">
-      <div className="grid-lg">
-        <div className="flex-lg">
-          <AddBudgetForm/>
+  return (
+    <div>
+      {userName ? (
+        <div className="dashboard">
+          <h1>
+            Welcome, <span className="accent">{userName}</span>
+          </h1>
+          <div className="grid-sm">
+            <div className="grid-lg">
+              <div className="flex-lg">
+                <AddBudgetForm />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      ) : (
+        <Intro />
+      )}
     </div>
-  </div> : <Intro />}</div>;
+  );
 };
 
 export default Dashboard;

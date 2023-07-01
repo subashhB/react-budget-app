@@ -5,7 +5,7 @@ const AddBudgetForm = () => {
   return (
     <div className="form-wrapper">
       <h2 className="h3">Create Budget</h2>
-      <Form method="post">
+      <Form method="post" className="grid-sm">
         <div className="grid-xs">
           <label htmlFor="newBudget">Budget Name</label>
           <input
@@ -17,17 +17,18 @@ const AddBudgetForm = () => {
           />
         </div>
         <div className="grid-xs">
-          <label htmlFor="newBudgetAmout">Budget Amount</label>
+          <label htmlFor="newBudgetAmount">Budget Amount</label>
           <input
             type="number"
             step="0.01"
             placeholder="e.g. Rs. 350"
             inputMode="decimal"
-            name="newBudgetAmout"
+            name="newBudgetAmount"
             id="newBudgetAmount"
             required
           />
         </div>
+        <input type="hidden" name="_action" value="createBudget" />
         <button type="submit" className="btn btn--dark"><PlusIcon width={20}/> <span>Create Budget</span></button>
       </Form>
     </div>
