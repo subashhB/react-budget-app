@@ -28,7 +28,7 @@ export const createExpense = ({ name, amount, budgetId }) => {
     id: crypto.randomUUID(),
     name: name,
     amount: +amount,
-    createAt: Date.now(),
+    createdAt: Date.now(),
     budgetId: budgetId,
   };
   const existingExpenses = fetchData("expenses") ?? [];
@@ -52,6 +52,9 @@ export const calculateSpentByBudget = (budgetId) =>{
   }, 0)
   return budgetSpent;
 }
+
+export const formatDate = (date) =>  new Date(date).toLocaleDateString();
+
 
 export const formatPercentage = (amount)=>{
   return amount.toLocaleString(undefined, {
