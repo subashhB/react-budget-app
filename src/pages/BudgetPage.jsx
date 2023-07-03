@@ -60,7 +60,7 @@ const BudgetPage = () => {
         <span className="accent">{budget.name}</span> Overview
       </h1>
       <div className="flex-lg">
-        <BudgetItem budget={budget} />
+        <BudgetItem showDelete={true} budget={budget} />
         <AddExpenseForm budgets={[budget]} />
       </div>
       {expenses && expenses.length > 0 && (

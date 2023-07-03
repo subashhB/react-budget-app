@@ -10,6 +10,7 @@ const ExpenseItem = ({ expense, showBudget }) => {
     key: "id",
     value: expense.budgetId,
   })[0];
+  
   return (
     <>
       <td>{name}</td>
